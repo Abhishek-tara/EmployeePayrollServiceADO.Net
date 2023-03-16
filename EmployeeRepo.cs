@@ -54,6 +54,62 @@ namespace EmployeePayRoll
             return false;
         }
 
-       
+        public void GetAllEmployee()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    //string query = @"Select EmployeeName,PhoneNumber,Address,Department,Gender,BasicPay,Deductions,TaxablePay,Tax,NetPay," +
+                    //    "StartDate,City,Country from employee";
+
+                    string query = @"Select * from employee";
+
+                    SqlCommand cmd = new SqlCommand(query, this.connection);
+
+                    this.connection.Open();
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while(dr.Read())
+                        {
+                            employeeModel.EmployeeID = dr.GetInt32(0);
+                            employeeModel.EmployeeName = dr.GetString(1);
+                            employeeModel.PhoneNumber = dr.GetString(2);
+                            employeeModel.Address = dr.GetString(3);
+                            employeeModel.Department = dr.GetString(4);
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(5));
+                            employeeModel.BasicPay = dr.GetDouble(6);
+                            employeeModel.Deductions = dr.GetDouble(7);
+                            employeeModel.TaxablePay = dr.GetDouble(8);
+                            employeeModel.Tax = dr.GetDouble(9);
+                            employeeModel.NetPay = dr.GetDouble(10);
+                            employeeModel.StartDate = dr.GetDateTime(11);
+                            employeeModel.City = dr.GetString(12);
+                            employeeModel.Country = dr.GetString(13);
+
+                            Console.WriteLine("{0} {1} {2} {3}  ", employeeModel.EmployeeID, employeeModel.EmployeeName, employeeModel.PhoneNumber, employeeModel.Address);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Data Not Found");
+                    }
+                    dr.Close();
+                    this.connection.Close();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }
