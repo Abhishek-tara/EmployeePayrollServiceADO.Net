@@ -61,10 +61,10 @@ namespace EmployeePayRoll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (this.connection)
                 {
-                    //string query = @"Select EmployeeName,PhoneNumber,Address,Department,Gender,BasicPay,Deductions,TaxablePay,Tax,NetPay," +
-                    //    "StartDate,City,Country from employee";
+                    string query = @"Select EmployeeID,EmployeeName,PhoneNumber,Address,Department,Gender,BasicPay,Deductions,TaxablePay,Tax,NetPay," +
+                        "StartDate,City,Country from employee";
 
-                    string query = @"Select * from employee";
+                    //string query = @"Select * from employee";
 
                     SqlCommand cmd = new SqlCommand(query, this.connection);
 
@@ -105,6 +105,43 @@ namespace EmployeePayRoll
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        public void UpdateSalaryQuery()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+
+                {
+                    //sqlConnection.Open();
+                    string query = "update employee set BasicPay=3000000 where EmployeeName= 'Bruce wayne'";
+                    this.connection.Open();
+                    //Pass query to TSql
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    int result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        Console.WriteLine("Updated!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not Updated!");
+                    }
+                    //Close Connection
+                    this.connection.Close();
+                    GetAllEmployee();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
             finally
             {

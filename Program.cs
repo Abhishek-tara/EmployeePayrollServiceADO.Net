@@ -2,7 +2,7 @@
 
 namespace EmployeePayroll
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -26,7 +26,8 @@ namespace EmployeePayroll
             employeeModel.Country = "India";
 
             //employeeRepo.AddEmployee(employeeModel);
-            employeeRepo.GetAllEmployee();
+            //employeeRepo.GetAllEmployee();
+            employeeRepo.UpdateSalaryQuery();
 
         }
     }
