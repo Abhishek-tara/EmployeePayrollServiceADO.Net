@@ -20,5 +20,28 @@ namespace EmployeePayRollTest
             int actual = repo.UpdateSalary(employeeDataManager);
             Assert.AreEqual(actual, expected);
         }
+
+        //Usecase 6: Aggregate Functions
+        
+        [TestMethod]
+        [TestCategory("Using SQL Query for Male")]
+        public void GivenGenderMale_GroupBygender_ReturnAggregateFunction()
+        {
+            EmployeeModel employeeDataManager = new EmployeeModel();
+            string expected = "30250000 250000 30000000 15125000 2";
+            string query = "select sum(BasicPay) as TotalSalary,min(BasicPay) as MinimumSalary,max(BasicPay) as MaximumSalary,Round(avg(BasicPay), 0) as AverageSalary,Count(BasicPay) as Count from employee_payroll where Gender = 'M' group by Gender";
+            string actual = EmployeeRepo.AggregateFunctionBasedOnGender(query);
+            Assert.AreEqual(actual, expected);
+        }
+
+        [TestMethod]
+        [TestCategory("Using Transaction Query")]
+        public void GivenInsertQuery_usingTransaction_returnOne()
+        {
+            int expected = 1;
+            TransactionClass transactionClass = new TransactionClass();
+            int actual = transactionClass.InsertIntoTables();
+            Assert.AreEqual(actual, expected);
+        }
     }
 }
