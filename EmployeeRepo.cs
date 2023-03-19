@@ -185,6 +185,48 @@ namespace EmployeePayRoll
             return result;
         }
 
+        //Usecase 5: Finds the employees in a given range from start date to current
+        public string DataBasedOnDateRange()
+        {
+            string nameList = "";
+            try
+            {
+                using (this.connection)
+                {
+                    //query execution
+                    string query = @"select * from employee_payroll where StartDate BETWEEN Cast('2019-12-13' as Date) and GetDate();";
+                    SqlCommand command = new SqlCommand(query, this.connection);
+                    //open sql connection
+                    connection.Open();
+
+                    SqlDataReader sqlDataReader = command.ExecuteReader();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            GetAllEmployee();
+                            nameList += sqlDataReader["EmployeeName"].ToString() + " ";
+                        }
+                    }
+                    //close reader
+                    sqlDataReader.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+
+                connection.Close();
+            }
+            //returns the count of employee in the list between the given range
+            return nameList;
+
+        }
+
     }
 }
 
