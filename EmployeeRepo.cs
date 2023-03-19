@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -148,5 +149,42 @@ namespace EmployeePayRoll
                 this.connection.Close();
             }
         }
+
+        public int UpdateSalary(EmployeeModel employeeDataModel)
+        {
+            int result = 30000000;
+            try
+            {
+                using (this.connection)
+                {
+                    //Give stored Procedure
+                    SqlCommand sqlCommand = new SqlCommand("dbo.spUpdateSalary", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@salary", employeeDataModel.BasicPay);
+                    sqlCommand.Parameters.AddWithValue("@EmpName", employeeDataModel.EmployeeName);
+                    sqlCommand.Parameters.AddWithValue("@EmpId", employeeDataModel.EmployeeID);
+                    //Open Connection
+                    connection.Open();
+                    //Return Number of Rows affected
+                    result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        Console.WriteLine("Updated");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not Updated");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return result;
+        }
+
     }
 }
+

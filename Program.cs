@@ -26,8 +26,8 @@ namespace EmployeePayroll
             employeeModel.Country = "India";
 
             //employeeRepo.AddEmployee(employeeModel);
-            //employeeRepo.GetAllEmployee();
-            employeeRepo.UpdateSalaryQuery();
+            employeeRepo.GetAllEmployee();
+            //employeeRepo.UpdateSalaryQuery();
 
         }
     }
